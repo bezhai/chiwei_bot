@@ -70,7 +70,7 @@ services:
 
   logstash:
     restart: on-failure
-    image: docker.elastic.co/logger_hook/logger_hook:7.10.1
+    image: docker.elastic.co/logstash/logstash:7.10.1
     container_name: logger_hook
     volumes:
       - ./conf/logger_hook.conf:/usr/share/logger_hook/pipeline/logger_hook.conf
