@@ -1,0 +1,39 @@
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import ConfApp from "./confSetting/ConfApp";
+import TranslationApp from "./translate/TranslateApp";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import "typeface-roboto-mono";
+import "./assets/fonts/fonts.css";
+import ImagesPage from "./imageList/imagePage";
+import { Provider as JotaiProvider } from "jotai";
+import RouteChangeHandler from "./common/routerHandler/RouteChangeHandler";
+import { SnackbarProvider } from "./common/snackBar/SnackbarProvider";
+
+const rootElement = document.getElementById("root");
+if (!rootElement) throw new Error("Failed to find the root element");
+
+const root = ReactDOM.createRoot(rootElement);
+root.render(
+  <React.StrictMode>
+    <Router>
+      <JotaiProvider>
+        <RouteChangeHandler />
+        <SnackbarProvider>
+          <Routes>
+            <Route path="/" element={<Navigate to="/conf" replace />} />
+            <Route path="/conf" element={<ConfApp />} />
+            <Route path="/translate" element={<TranslationApp />} />
+            <Route path="/images" element={<ImagesPage />} />
+          </Routes>
+        </SnackbarProvider>
+      </JotaiProvider>
+    </Router>
+  </React.StrictMode>
+);
