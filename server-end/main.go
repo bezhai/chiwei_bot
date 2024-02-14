@@ -13,6 +13,7 @@ import (
 
 	"github.com/bezhai/chiwei_bot/server-end/biz/clients/logger_hook"
 	"github.com/bezhai/chiwei_bot/server-end/config"
+	"github.com/bezhai/chiwei_bot/server-end/utils/env_utils"
 )
 
 func main() {
@@ -20,10 +21,10 @@ func main() {
 	// 注入环境变量
 	config.InitEnv()
 
-	hook := logger_hook.InitLogHook()
-
-	// 设置Hertz的日志输出
-	hlog.SetLogger(hertzlogrus.NewLogger(hertzlogrus.WithHook(hook)))
+	if env_utils.Value("OPEN_LOCAL_ELK") == "true" {
+		hook := logger_hook.InitLogHook()
+		hlog.SetLogger(hertzlogrus.NewLogger(hertzlogrus.WithHook(hook)))
+	}
 
 	h := server.Default(
 		server.WithMaxRequestBodySize(20<<24),
