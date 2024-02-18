@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Container, Grid, Box } from "@mui/material";
-import { styled } from "@mui/material/styles";
 import {
   ListImageData,
   ListImageReq,
@@ -8,7 +7,7 @@ import {
   StatusMode,
   UpdateImagesStatusReq,
   UpdateStatusMode,
-} from "../common/types/image"; // 假设api文件包含你的接口定义
+} from "../common/types/image";
 import { fetchImages, updateImagesStatus } from "../common/api";
 import TopTabs from "../common/components/TopTabs";
 import PaginationBar from "../common/components/PaginationBar";
@@ -22,18 +21,7 @@ import { deleteKey } from "../common/utils/tools";
 import ImageDetailCard from "./ImageDetailCard";
 import { useAtom } from "jotai";
 import { showMessageAtom } from "../common/snackBar/snackbarAtoms";
-
-const PREFIX = "ImagesPage";
-const classes = {
-  container: `${PREFIX}-container`,
-};
-
-const Root = styled("div")(({ theme }) => ({
-  [`&.${classes.container}`]: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
-  },
-}));
+import styles from "./ImagePage.module.css";
 
 const ImagesPage: React.FC = () => {
   const [imagesData, setImagesData] = useState<ListImageData>({
@@ -92,9 +80,14 @@ const ImagesPage: React.FC = () => {
   const handleSearch = (searchReq: ListImageReq) => {
     setSearchParams(searchReq);
     setPage(1);
+    updateSearchTrigger();
   };
 
   const [, showMessage] = useAtom(showMessageAtom);
+
+  const updateSearchTrigger = () => {
+    setSearchTrigger((prev) => prev + 1);
+  };
 
   const updateImagesStatusFunc = async (
     filters: UpdateImagesStatusReq
@@ -113,7 +106,7 @@ const ImagesPage: React.FC = () => {
       } else {
         showMessage({ message: `成功${message}`, severity: "success" });
         setSelectImages({});
-        setSearchTrigger((prev) => prev + 1);
+        updateSearchTrigger();
       }
     } catch (error) {
       console.error("Error updating images status:", error);
@@ -134,54 +127,44 @@ const ImagesPage: React.FC = () => {
         <ImageDetailCard onClose={handleCloseDetail} {...selectedImage} />
       )}
       <TopTabs />
-      <Root className={classes.container}>
-        <Box sx={{ flexGrow: 1 }}>
-          <Container className={classes.container} maxWidth="xl">
-            <SearchComponent onSearch={handleSearch} />
-            <ControlPanel
-              isOpenCheckbox={isOpenCheckbox}
-              updateIsOpenCheckbox={(isOpen: boolean) =>
-                setIsOpenCheckbox(isOpen)
-              }
-              currentStatus={currentStatus}
-              updateStatus={(status: UpdateStatusMode) =>
-                setCurrentStatus(status)
-              }
-              submit={() =>
-                updateImagesStatusFunc({
-                  pixiv_addr_list: Object.keys(selectImages),
-                  status: currentStatus,
-                })
-              }
-              hasSelectedItem={Object.keys(selectImages).length > 0}
-            />
-            <Grid container spacing={4}>
-              {imagesData.images.map((imageInfo) => (
-                <Grid item key={imageInfo.pixiv_addr} xs={12} sm={6} md={3}>
-                  <ImageCard
-                    onImageClick={(imageInfo: PixivImageInfoWithUrl) => {
-                      handleImageClick(imageInfo);
-                    }}
-                    onCheckboxChange={(checked: boolean) => {
-                      handleSelectImages(imageInfo.pixiv_addr, checked);
-                    }}
-                    isOpenCheckbox={isOpenCheckbox}
-                    isChecked={selectImages.hasOwnProperty(
-                      imageInfo.pixiv_addr
-                    )}
-                    {...imageInfo}
-                  />
-                </Grid>
-              ))}
+      <Container className={styles.container} maxWidth="xl">
+        <SearchComponent onSearch={handleSearch} />
+        <ControlPanel
+          isOpenCheckbox={isOpenCheckbox}
+          updateIsOpenCheckbox={(isOpen: boolean) => setIsOpenCheckbox(isOpen)}
+          currentStatus={currentStatus}
+          updateStatus={(status: UpdateStatusMode) => setCurrentStatus(status)}
+          submit={() =>
+            updateImagesStatusFunc({
+              pixiv_addr_list: Object.keys(selectImages),
+              status: currentStatus,
+            })
+          }
+          hasSelectedItem={Object.keys(selectImages).length > 0}
+        />
+        <Grid container spacing={4}>
+          {imagesData.images.map((imageInfo) => (
+            <Grid item key={imageInfo.pixiv_addr} xs={12} sm={6} md={3}>
+              <ImageCard
+                onImageClick={(imageInfo: PixivImageInfoWithUrl) => {
+                  handleImageClick(imageInfo);
+                }}
+                onCheckboxChange={(checked: boolean) => {
+                  handleSelectImages(imageInfo.pixiv_addr, checked);
+                }}
+                isOpenCheckbox={isOpenCheckbox}
+                isChecked={selectImages.hasOwnProperty(imageInfo.pixiv_addr)}
+                {...imageInfo}
+              />
             </Grid>
-            <PaginationBar
-              totalPages={Math.ceil(imagesData.total / pageSize)}
-              page={page}
-              setPage={setPage}
-            ></PaginationBar>
-          </Container>
-        </Box>
-      </Root>
+          ))}
+        </Grid>
+        <PaginationBar
+          totalPages={Math.ceil(imagesData.total / pageSize)}
+          page={page}
+          setPage={setPage}
+        ></PaginationBar>
+      </Container>
     </Box>
   );
 };
