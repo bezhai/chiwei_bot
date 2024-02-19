@@ -1,22 +1,19 @@
-# Makefile
-
-# 定义变量
-IMAGE_NAME=front-end-app
+IMAGE_NAME=registry-internal.cn-hongkong.aliyuncs.com/chiwei/front-end
+IMAGE_TAG=v1.0.1
 CONTAINER_NAME=front-end-container
 HOST_PORT=3000
 CONTAINER_PORT=3000
 ENV_FILE=../.env
 
-# 默认目标，当你只输入 make 时执行
 default: run
 
-# 构建 Docker 镜像
-build:
-	docker build -t $(IMAGE_NAME) .
+# 拉取 Docker 镜像
+pull:
+	docker pull $(IMAGE_NAME):$(IMAGE_TAG)
 
 # 运行 Docker 容器
-run: build
-	docker run -d --name $(CONTAINER_NAME) --env-file $(ENV_FILE) -p $(HOST_PORT):$(CONTAINER_PORT) -v /usr/src/app/node_modules $(IMAGE_NAME)
+run: pull
+	docker run -d --name $(CONTAINER_NAME) --env-file $(ENV_FILE) -p $(HOST_PORT):$(CONTAINER_PORT) -v /usr/src/app/node_modules $(IMAGE_NAME):$(IMAGE_TAG)
 
 # 停止并移除 Docker 容器
 clean:
@@ -25,7 +22,7 @@ clean:
 
 # 停止、移除容器并移除镜像
 distclean: clean
-	docker rmi $(IMAGE_NAME)
+	docker rmi $(IMAGE_NAME):$(IMAGE_TAG)
 
 # 防止 Makefile 冲突
-.PHONY: default build run clean distclean
+.PHONY: default pull run clean distclean
