@@ -1,4 +1,4 @@
-IMAGE_NAME=registry-internal.cn-hongkong.aliyuncs.com/chiwei/front-end
+IMAGE_NAME=registry-vpc.cn-hongkong.aliyuncs.com/chiwei/front-end
 IMAGE_TAG=v1.0.1
 CONTAINER_NAME=front-end-container
 HOST_PORT=3000
