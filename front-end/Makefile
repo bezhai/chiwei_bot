@@ -13,9 +13,11 @@ pull:
 
 # 运行 Docker 容器
 run: pull
+	docker stop $(CONTAINER_NAME) || true
+	docker rm $(CONTAINER_NAME) || true
 	docker run -d --name $(CONTAINER_NAME) --env-file $(ENV_FILE) -p $(HOST_PORT):$(CONTAINER_PORT) -v /usr/src/app/node_modules $(IMAGE_NAME):$(IMAGE_TAG)
 
-# 停止并移除 Docker 容器
+    # 停止并移除 Docker 容器
 clean:
 	docker stop $(CONTAINER_NAME)
 	docker rm $(CONTAINER_NAME)
