@@ -12,7 +12,7 @@ default: run
 
 # 构建 Docker 镜像
 build:
-	docker build -t $(IMAGE_NAME) ./front-end
+	docker build -t $(IMAGE_NAME) .
 
 # 运行 Docker 容器
 run: build
