@@ -1,21 +1,31 @@
 version: '3.8'
 services:
-  front:
-    build: ./front-end
+  mongo:
+    image: "mongo"
     ports:
-      - "3000"
+      - "27017:27017"
     volumes:
-      - /usr/src/app/node_modules
+      - mongo_data:/data/db
 
-  nginx:
-    build:
-      context: .
-      dockerfile: "./conf/Dockerfile.nginx"
+  redis:
+    image: redis:latest
+    restart: always
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./conf/redis.conf:/etc/redis/redis.conf
+      - ../redis_data:/data
+    command: redis-server /etc/redis/redis.conf
+    privileged: true
+
+  meme:
+    image: meetwq/meme-generator:latest
     restart: always
     ports:
-      - "80:80"
-    volumes:
-      - ./conf/nginx-dev.conf:/etc/nginx/nginx.conf:ro
-    depends_on:
-      - front
+      - "2233"
 
+volumes:
+  mongo_data:
+  esdata01:
+    driver: local
