@@ -4,6 +4,9 @@ services:
     image: "mongo"
     ports:
       - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     volumes:
       - mongo_data:/data/db
 
@@ -16,7 +19,9 @@ services:
     volumes:
       - ./conf/redis.conf:/etc/redis/redis.conf
       - ../redis_data:/data
-    command: redis-server /etc/redis/redis.conf
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    command: redis-server /etc/redis/redis.conf --requirepass ${REDIS_PASSWORD}
     privileged: true
 
   meme:
