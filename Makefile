@@ -16,4 +16,4 @@ restart:
 start_v2:
 	git pull
 	docker compose -f docker-compose-dev.yml build
-	docker compose up -f docker-compose-dev.yml -d
+	docker compose -f docker-compose-dev.yml up -d
