@@ -8,8 +8,8 @@ type TabRoute = {
 };
 
 const tabRoutes: TabRoute[] = [
-  { label: "配置", path: "/conf" },
-  { label: "翻译", path: "/translate" },
+  // { label: "配置", path: "/conf" },
+  // { label: "翻译", path: "/translate" },
   { label: "图库", path: "/images" },
 ];
 const TopTabs: React.FC = () => {

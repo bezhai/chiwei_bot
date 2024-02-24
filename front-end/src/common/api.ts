@@ -4,7 +4,7 @@ import { NewApiResponse } from "./types/basic";
 import { ListImageData, ListImageReq, UpdateImagesStatusReq } from "./types/image";
 import { RedisArrayData, RedisStringData } from "./types/redis";
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = "http://www.yuanzhi.xyz/api";
 
 export const getUntranslatedWords = (
   page: number,
@@ -30,11 +30,11 @@ export const deleteTranslation = (word: string): NewApiResponse => {
 };
 
 export const fetchImages = (filters: ListImageReq): NewApiResponse<ListImageData> => {
-  return axios.post(`${API_URL}/images/list`, filters);
+  return axios.post(`${API_URL}/need-auth/image-store/list-info`, filters);
 };
 
 export const updateImagesStatus = (filters: UpdateImagesStatusReq): NewApiResponse => {
-  return axios.post(`${API_URL}/images/update_status`, filters);
+  return axios.post(`${API_URL}/need-auth/image-store/update-status`, filters);
 };
 
 export const getRedisValue = (key: string): NewApiResponse<RedisStringData> => {

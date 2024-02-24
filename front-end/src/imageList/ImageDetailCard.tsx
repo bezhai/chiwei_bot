@@ -17,14 +17,14 @@ const ImageDetailCard: React.FC<ImageDetailCardProps> = ({
       <Box className={styles.backdrop} onClick={onClose} />
       <Card className={styles.detailCardRoot}>
         <Box className={styles.detailCardMediaContainer}>
-          <DetailCardMedia url={imageInfo.url} title={imageInfo.title} />
+          <DetailCardMedia url={imageInfo.show_url} title={imageInfo.pixiv_image_meta_info.title} />
         </Box>
         <Box className={styles.detailCardContent}>
           <Typography gutterBottom variant="h6" component="h2">
-            {imageInfo.title || "无题"}
+            {imageInfo.pixiv_image_meta_info.title || "无题"}
           </Typography>
           <Typography variant="body1" component="h2">
-            {imageInfo.author || "无题"}
+            {imageInfo.pixiv_image_meta_info.author || "无题"}
           </Typography>
         </Box>
       </Card>

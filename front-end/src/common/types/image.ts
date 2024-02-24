@@ -23,17 +23,17 @@ export interface MultiTag {
 }
 
 export interface PixivImageInfo {
-  image_key: string;
+  // image_key: string;
   pixiv_addr: string;
   visible: boolean;
   author: string;
   multi_tags: MultiTag[];
   create_time: Date;
   update_time: Date;
-  height: number;
-  width: number;
-  size: number;
-  need_download: boolean;
+  // height: number;
+  // width: number;
+  // size: number;
+  // need_download: boolean;
   tos_file_name: string;
   author_id?: string;
   del_flag: boolean;
@@ -41,13 +41,14 @@ export interface PixivImageInfo {
   title: string;
 }
 
-export interface PixivImageInfoWithUrl extends PixivImageInfo {
-  url: string;
+export interface PixivImageInfoWithUrl {
+  pixiv_image_meta_info: PixivImageInfo;
+  show_url: string;
   download_url: string;
 }
 
 export interface ListImageData {
-  images: PixivImageInfoWithUrl[];
+  pixiv_image_meta_infos: PixivImageInfoWithUrl[];
   total: number;
 }
 

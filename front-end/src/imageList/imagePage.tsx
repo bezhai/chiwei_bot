@@ -25,7 +25,7 @@ import styles from "./ImagePage.module.css";
 
 const ImagesPage: React.FC = () => {
   const [imagesData, setImagesData] = useState<ListImageData>({
-    images: [],
+    pixiv_image_meta_infos: [],
     total: 0,
   });
   const [page, setPage] = useState<number>(1);
@@ -143,17 +143,17 @@ const ImagesPage: React.FC = () => {
           hasSelectedItem={Object.keys(selectImages).length > 0}
         />
         <Grid container spacing={4}>
-          {imagesData.images.map((imageInfo) => (
-            <Grid item key={imageInfo.pixiv_addr} xs={12} sm={6} md={3}>
+          {imagesData.pixiv_image_meta_infos.map((imageInfo) => (
+            <Grid item key={imageInfo.pixiv_image_meta_info.pixiv_addr} xs={12} sm={6} md={3}>
               <ImageCard
                 onImageClick={(imageInfo: PixivImageInfoWithUrl) => {
                   handleImageClick(imageInfo);
                 }}
                 onCheckboxChange={(checked: boolean) => {
-                  handleSelectImages(imageInfo.pixiv_addr, checked);
+                  handleSelectImages(imageInfo.pixiv_image_meta_info.pixiv_addr, checked);
                 }}
                 isOpenCheckbox={isOpenCheckbox}
-                isChecked={selectImages.hasOwnProperty(imageInfo.pixiv_addr)}
+                isChecked={selectImages.hasOwnProperty(imageInfo.pixiv_image_meta_info.pixiv_addr)}
                 {...imageInfo}
               />
             </Grid>

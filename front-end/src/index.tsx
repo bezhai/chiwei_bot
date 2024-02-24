@@ -27,9 +27,9 @@ root.render(
         <RouteChangeHandler />
         <SnackbarProvider>
           <Routes>
-            <Route path="/" element={<Navigate to="/conf" replace />} />
-            <Route path="/conf" element={<ConfApp />} />
-            <Route path="/translate" element={<TranslationApp />} />
+            <Route path="/" element={<Navigate to="/images" replace />} />
+            {/* <Route path="/conf" element={<ConfApp />} /> */}
+            {/* <Route path="/translate" element={<TranslationApp />} /> */}
             <Route path="/images" element={<ImagesPage />} />
           </Routes>
         </SnackbarProvider>
