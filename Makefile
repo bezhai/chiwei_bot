@@ -1,4 +1,6 @@
 start:
+	git pull
+	export $(grep -v '^#' .env | xargs)
 	docker compose up -d --build
 
 start-dev:
@@ -9,12 +11,7 @@ down:
 
 restart:
 	git pull
+	export $(grep -v '^#' .env | xargs)
 	docker compose build
 	docker compose down
 	docker compose up -d
-
-start_v2:
-	git pull
-	export $(grep -v '^#' .env | xargs)
-	docker compose -f docker-compose-dev.yml build
-	docker compose -f docker-compose-dev.yml up -d
