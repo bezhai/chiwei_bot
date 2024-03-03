@@ -1,8 +1,8 @@
 IMAGE_NAME=registry-vpc.cn-hongkong.aliyuncs.com/chiwei/bot_website
 IMAGE_TAG=v1.0.1
 CONTAINER_NAME=front-end-container
-HOST_PORT=3000
-CONTAINER_PORT=3000
+HOST_PORT=80
+CONTAINER_PORT=80
 
 pull:
 	docker pull $(IMAGE_NAME):$(IMAGE_TAG)
